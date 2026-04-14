@@ -5,31 +5,19 @@ app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
 def sent_analyzer():
-    """
-    Analiza el texto recibido y devuelve una frase formateada con las emociones.
-    """
-    # Obtener el texto de los parámetros de la URL
     text_to_analyze = request.args.get('textToAnalyze')
-
-    # Llamar a la función del paquete
     response = emotion_detector(text_to_analyze)
 
-    # Extraer los valores
-    anger = response['anger']
-    disgust = response['disgust']
-    fear = response['fear']
-    joy = response['joy']
-    sadness = response['sadness']
     dominant_emotion = response['dominant_emotion']
 
-    # Si el texto es inválido (según la lógica que haremos luego o si viene vacío)
+    # Task 7: Manejo de error si la emoción dominante es None
     if dominant_emotion is None:
         return "Invalid text! Please try again!."
 
-    # Retornar la respuesta con el formato exacto del enunciado
     return (
-        f"For the given statement, the system response is 'anger': {anger}, "
-        f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. "
+        f"For the given statement, the system response is 'anger': {response['anger']}, "
+        f"'disgust': {response['disgust']}, 'fear': {response['fear']}, "
+        f"'joy': {response['joy']} and 'sadness': {response['sadness']}. "
         f"The dominant emotion is {dominant_emotion}."
     )
 
